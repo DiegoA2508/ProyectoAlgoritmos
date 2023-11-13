@@ -5,24 +5,25 @@ import java.util.List;
 
 public class Desopo {
 
+	// Método principal para el algoritmo de Desopo
 	public static int[] desopo(int[][] graph) {
-		int v = graph.length;
-		List<Integer> q = new ArrayList<>();
-		int[] distance = new int[v];
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		boolean[] isInQueue = new boolean[v];
-		int source = 0;
+		int v = graph.length; // Número de nodos en el grafo
+		List<Integer> q = new ArrayList<>(); // Lista para la cola de nodos
+		int[] distance = new int[v]; // Arreglo para almacenar las distancias más cortas
+		Arrays.fill(distance, Integer.MAX_VALUE); // Inicializa todas las distancias como infinito
+		boolean[] isInQueue = new boolean[v]; // Bandera para rastrear si un nodo está en la cola
+		int source = 0; // Nodo fuente
 		distance[source] = 0;
 		q.add(source);
 		isInQueue[source] = true;
 
 		while (!q.isEmpty()) {
-			int u = q.remove(0);
+			int u = q.remove(0); // Obtiene el primer nodo de la cola
 			isInQueue[u] = false;
 
 			if (graph[u] != null) {
 				for (int i = 0; i < graph[u].length; i += 2) {
-					int e = graph[u][i + 1];
+					int e = graph[u][i + 1]; // Nodo adyacente
 					if (distance[e] > distance[u] + graph[u][i]) {
 						distance[e] = distance[u] + graph[u][i];
 						if (!isInQueue[e]) {
@@ -39,6 +40,7 @@ public class Desopo {
 		return distance;
 	}
 
+	// Método para imprimir información sobre el grafo
 	public static void printGraphInfo(int[][] graph) {
 		int numNodes = graph.length;
 		int numEdges = 0;
@@ -55,22 +57,27 @@ public class Desopo {
 		System.out.println("Número de aristas: " + numEdges);
 	}
 
-
+	// Método principal del programa
 	public static void main(String[] args) {
-		int numNodes = 10000; // Número de nodos
-		int numEdges = 20000; // Número de aristas
+		int numNodes = 150000; // Número de nodos
+		int numEdges = 300000; // Número de aristas
 
+		// Crear un grafo aleatorio
 		int[][] graph = createRandomGraph(numNodes, numEdges);
 
+		// Imprimir información sobre el grafo
 		printGraphInfo(graph);
 
+		// Medir el tiempo de ejecución del algoritmo de Desopo
 		long startTime = System.nanoTime();
 		int[] distances = desopo(graph);
 		long endTime = System.nanoTime();
 
+		// Imprimir el tiempo de ejecución
 		System.out.println("Tiempo de ejecución: " + (endTime - startTime) / 1e6 + " milisegundos");
 	}
 
+	// Método para crear un grafo aleatorio
 	public static int[][] createRandomGraph(int numNodes, int numEdges) {
 		int[][] graph = new int[numNodes][];
 		for (int i = 0; i < numNodes; i++) {

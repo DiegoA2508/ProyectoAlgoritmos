@@ -1,14 +1,14 @@
 package Algoritmos.NoDirijido;
-// Java program to find shortest weighted
-// cycle in undirected graph
+
 import java.util.*;
 
 class NoDirigido {
 
     public static void main(String[] args) {
-        int numNodes = 1000;
-        int numEdges = 2000;
+        int numNodes = 15000;
+        int numEdges = 30000;
 
+        // Generar un grafo no dirigido aleatorio
         Graph g = generateRandomGraph(numNodes, numEdges);
 
         System.out.println("Número de nodos: " + numNodes);
@@ -22,7 +22,7 @@ class NoDirigido {
         System.out.println("Tiempo de ejecución: " + executionTime + " ms");
     }
 
-
+    // Método para generar un grafo no dirigido aleatorio
     public static Graph generateRandomGraph(int numNodes, int numEdges) {
         Random random = new Random();
         Graph graph = new Graph(numNodes);
@@ -34,6 +34,7 @@ class NoDirigido {
             int v = random.nextInt(numNodes);
             int weight = random.nextInt(20); // Peso aleatorio entre 0 y 19
 
+            // Asegurar que la arista no exista ya
             if (u != v && !graph.edge.contains(new Edge(u, v, weight))) {
                 graph.addEdge(u, v, weight);
                 generatedEdges++;
@@ -42,7 +43,6 @@ class NoDirigido {
 
         return graph;
     }
-
 }
 
 class Graph {
@@ -59,21 +59,24 @@ class Graph {
         edge = new ArrayList<>();
     }
 
+    // Método para agregar una arista al grafo
     public void addEdge(int u, int v, int w) {
         adj[u].add(new Tuple<>(v, w));
         adj[v].add(new Tuple<>(u, w));
-        Edge e = new Edge(u,v,w);
+        Edge e = new Edge(u, v, w);
         e.u = u;
         e.v = v;
         e.weight = w;
         edge.add(e);
     }
 
+    // Método para eliminar una arista del grafo
     public void removeEdge(int u, int v, int w) {
         adj[u].remove(new Tuple<>(v, w));
         adj[v].remove(new Tuple<>(u, w));
     }
 
+    // Método para encontrar el camino más corto entre dos nodos en el grafo
     public int shortestPath(int u, int v) {
         SortedSet<Tuple<Integer, Integer>> setds = new TreeSet<>();
         List<Integer> dist = new ArrayList<>();
@@ -102,6 +105,7 @@ class Graph {
         return dist.get(v);
     }
 
+    // Método para encontrar el ciclo ponderado más corto en el grafo
     public int findMinimumCycle() {
         int minCycle = Integer.MAX_VALUE;
         int E = edge.size();
@@ -116,6 +120,7 @@ class Graph {
     }
 }
 
+// Clase Tuple para almacenar pares de enteros
 class Tuple<T, U> implements Comparable<Tuple<T, U>> {
     public final T first;
     public final U second;
@@ -125,6 +130,7 @@ class Tuple<T, U> implements Comparable<Tuple<T, U>> {
         this.second = second;
     }
 
+    // Método para comparar dos tuplas
     public int compareTo(Tuple<T, U> other) {
         if (this.first.equals(other.first)) {
             return this.second.toString().compareTo(other.second.toString());
@@ -133,11 +139,13 @@ class Tuple<T, U> implements Comparable<Tuple<T, U>> {
         }
     }
 
+    // Método para representar la tupla como cadena
     public String toString() {
         return "(" + first.toString() + ", " + second.toString() + ")";
     }
 }
 
+// Clase Edge para representar una arista en el grafo
 class Edge {
     public int u;
     public int v;
@@ -149,6 +157,7 @@ class Edge {
         this.weight = weight;
     }
 
+    // Métodos equals y hashCode para comparar y hashear aristas
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -162,6 +171,3 @@ class Edge {
         return Objects.hash(u, v, weight);
     }
 }
-
-
-// This code is contributed by NarasingaNikhil

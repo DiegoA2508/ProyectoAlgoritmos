@@ -6,9 +6,9 @@ import java.util.Vector;
 
 public class Karp {
 
-	static int V = 10000; // Cambiado el número de nodos a 100
+	static int V = 15000; // Número de nodos, cambiado a 15000
 
-	// a struct to represent edges
+	// Una estructura para representar aristas
 	static class Edge {
 		int from, weight;
 
@@ -18,7 +18,7 @@ public class Karp {
 		}
 	}
 
-	// vector to store edges
+	// Vector para almacenar aristas
 	@SuppressWarnings("unchecked")
 	static Vector<Edge>[] edges = new Vector[V];
 
@@ -27,6 +27,7 @@ public class Karp {
 			edges[i] = new Vector<>();
 	}
 
+	// Método para agregar aristas aleatorias al grafo
 	static void addRandomEdges(int numEdges) {
 		Random random = new Random();
 		for (int i = 0; i < numEdges; i++) {
@@ -37,22 +38,23 @@ public class Karp {
 		}
 	}
 
+	// Método para agregar una arista al grafo
 	static void addedge(int u, int v, int w) {
 		edges[v].add(new Edge(u, w));
 	}
 
-	// calculates the shortest path
+	// Calcula el camino más corto
 	static void shortestpath(int[][] dp) {
-		// initializing all distances as -1
+		// Inicializando todas las distancias como -1
 		for (int i = 0; i <= V; i++)
 			for (int j = 0; j < V; j++)
 				dp[i][j] = -1;
 
-		// shortest distance from the first vertex
-		// to itself consisting of 0 edges
+		// Distancia más corta desde el primer nodo
+		// a sí mismo que consiste en 0 aristas
 		dp[0][0] = 0;
 
-		// filling up the dp table
+		// Rellenando la tabla dp
 		for (int i = 1; i <= V; i++) {
 			for (int j = 0; j < V; j++) {
 				for (int k = 0; k < edges[j].size(); k++) {
@@ -69,19 +71,19 @@ public class Karp {
 		}
 	}
 
-	// Returns the minimum value of the average weight
-	// of a cycle in the graph.
+	// Devuelve el valor mínimo del peso promedio
+	// de un ciclo en el grafo.
 	static double minAvgWeight() {
 		int[][] dp = new int[V + 1][V];
 		shortestpath(dp);
 
-		// array to store the avg values
+		// Array para almacenar los valores promedio
 		double[] avg = new double[V];
 		for (int i = 0; i < V; i++)
 			avg[i] = -1;
 
-		// Compute average values for all vertices using
-		// weights of shortest paths stored in dp.
+		// Calcular los valores promedio para todos los nodos utilizando
+		// los pesos de los caminos más cortos almacenados en dp.
 		for (int i = 0; i < V; i++) {
 			if (dp[V][i] != -1) {
 				for (int j = 0; j < V; j++)
@@ -92,7 +94,7 @@ public class Karp {
 			}
 		}
 
-		// Find the minimum value in avg[]
+		// Encontrar el valor mínimo en avg[]
 		double result = avg[0];
 		for (int i = 0; i < V; i++)
 			if (avg[i] != -1 && avg[i] < result)
@@ -102,8 +104,8 @@ public class Karp {
 	}
 
 	public static void main(String[] args) {
-		int numNodes = V; // Cambia el número de nodos según tus necesidades
-		int numEdges = 20000; // Cambia el número de aristas según tus necesidades
+		int numNodes = V; // Cambiar el número de nodos según sea necesario
+		int numEdges = 30000; // Cambiar el número de aristas según sea necesario
 
 		addRandomEdges(numEdges);
 

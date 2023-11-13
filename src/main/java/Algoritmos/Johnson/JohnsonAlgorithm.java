@@ -5,9 +5,10 @@ import java.util.*;
 public class JohnsonAlgorithm {
     private static final int INFINITY = Integer.MAX_VALUE;
 
+    // Clase interna para representar el grafo
     static class Graph {
-        private final int V;
-        private final List<List<Edge>> adj;
+        private final int V; // Número de nodos
+        private final List<List<Edge>> adj; // Lista de adyacencia
 
         public Graph(int V) {
             this.V = V;
@@ -17,11 +18,13 @@ public class JohnsonAlgorithm {
             }
         }
 
+        // Método para añadir una arista al grafo
         public void addEdge(int source, int destination, int weight) {
             Edge edge = new Edge(destination, weight);
             adj.get(source).add(edge);
         }
 
+        // Método principal para ejecutar el algoritmo de Johnson en el grafo
         public List<List<Integer>> johnson() {
             List<List<Integer>> allPairsShortestPaths = new ArrayList<>();
             for (int i = 0; i < V; i++) {
@@ -31,6 +34,7 @@ public class JohnsonAlgorithm {
             return allPairsShortestPaths;
         }
 
+        // Método para aplicar Dijkstra con reponderación
         private List<Integer> dijkstraWithReWeighting(Graph graph, int start) {
             List<Integer> reWeightedDistances = dijkstra(graph, start);
 
@@ -47,6 +51,7 @@ public class JohnsonAlgorithm {
             return shortestPaths;
         }
 
+        // Método para crear un grafo con reponderación
         private Graph createReWeightedGraph(int start, List<Integer> reWeightedDistances) {
             Graph reWeightedGraph = new Graph(V + 1);
             for (int i = 0; i < V; i++) {
@@ -58,6 +63,7 @@ public class JohnsonAlgorithm {
             return reWeightedGraph;
         }
 
+        // Método para aplicar Dijkstra en el grafo
         private List<Integer> dijkstra(Graph graph, int start) {
             PriorityQueue<Node> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.distance));
             List<Integer> distances = new ArrayList<>(Collections.nCopies(graph.V, INFINITY));
@@ -83,6 +89,7 @@ public class JohnsonAlgorithm {
             return distances;
         }
 
+        // Clase interna para representar un nodo en el grafo
         private static class Node {
             private final int vertex;
             private final int distance;
@@ -93,6 +100,7 @@ public class JohnsonAlgorithm {
             }
         }
 
+        // Clase interna para representar una arista en el grafo
         private static class Edge {
             private final int destination;
             private final int weight;
@@ -104,9 +112,10 @@ public class JohnsonAlgorithm {
         }
     }
 
+    // Método principal del programa
     public static void main(String[] args) {
-        int numNodes = 1000;
-        int numEdges = 2000;
+        int numNodes = 15000;
+        int numEdges = 30000;
         Graph graph = generateRandomGraph(numNodes, numEdges);
 
         printGraphInfo(graph);
@@ -120,6 +129,7 @@ public class JohnsonAlgorithm {
         System.out.println("Execution Time: " + tiempoEnMilisegundos + " milliseconds");
     }
 
+    // Método para generar un grafo aleatorio
     private static Graph generateRandomGraph(int numNodes, int numEdges) {
         Graph graph = new Graph(numNodes);
         Random random = new Random();
@@ -139,11 +149,13 @@ public class JohnsonAlgorithm {
         return graph;
     }
 
+    // Método para imprimir información sobre el grafo
     private static void printGraphInfo(Graph graph) {
         System.out.println("Número de nodos: " + graph.V);
         System.out.println("Número de aristas: " + countEdges(graph));
     }
 
+    // Método para contar el número total de aristas en el grafo
     private static int countEdges(Graph graph) {
         int count = 0;
         for (List<Graph.Edge> edges : graph.adj) {

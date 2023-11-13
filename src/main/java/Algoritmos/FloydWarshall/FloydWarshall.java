@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class FloydWarshall {
     public static void main(String[] args) {
-        int numNodes = 1000;
-        int numEdges = 2000;
+        int numNodes = 8000;
+        int numEdges = 16000;
         int[][] graph = generateRandomGraph(numNodes, numEdges);
 
         // Imprimir el número de nodos y aristas antes de ejecutar el algoritmo
@@ -27,6 +27,7 @@ public class FloydWarshall {
         System.out.println("\nExecution Time: " + executionTime + " ms");
     }
 
+    // Método para generar un grafo ponderado aleatorio con un número específico de nodos y aristas
     public static int[][] generateRandomGraph(int numNodes, int numEdges) {
         int[][] graph = new int[numNodes][numNodes];
         int maxWeight = 10; // Peso máximo para las aristas
@@ -44,6 +45,7 @@ public class FloydWarshall {
         Random random = new Random();
         int edgesCreated = 0;
 
+        // Agregar aristas aleatorias al grafo
         while (edgesCreated < numEdges) {
             int i = random.nextInt(numNodes);
             int j = random.nextInt(numNodes);
@@ -57,6 +59,7 @@ public class FloydWarshall {
         return graph;
     }
 
+    // Algoritmo de Floyd-Warshall para encontrar los caminos más cortos entre todos los pares de nodos
     public static void floydWarshall(int[][] graph) {
         int numNodes = graph.length;
 
@@ -74,6 +77,7 @@ public class FloydWarshall {
         }
     }
 
+    // Método para imprimir la matriz de distancias más cortas o el grafo original
     public static void printGraph(int[][] graph) {
         int numNodes = graph.length;
         for (int i = 0; i < numNodes; i++) {
@@ -88,6 +92,7 @@ public class FloydWarshall {
         }
     }
 
+    // Método para contar el número de aristas en el grafo
     public static int countEdges(int[][] graph) {
         int numNodes = graph.length;
         int count = 0;

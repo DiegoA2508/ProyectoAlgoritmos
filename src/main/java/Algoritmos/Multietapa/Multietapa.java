@@ -4,13 +4,14 @@ import java.util.Random;
 
 class MultistageGraph {
 
-	static int N = 10000; // Cambiado el número de nodos a 100
+	static int N = 15000; // Número de nodos, cambiado a 15000
 	static int INF = Integer.MAX_VALUE;
 
 	public static int shortestDist(int[][] graph) {
 		int[] dist = new int[N];
 		dist[N - 1] = 0;
 
+		// Calcular las distancias más cortas
 		for (int i = N - 2; i >= 0; i--) {
 			dist[i] = INF;
 			for (int j = i; j < N; j++) {
@@ -25,8 +26,8 @@ class MultistageGraph {
 	}
 
 	public static void main(String[] args) {
-		int numNodes = N; // Cambia el número de nodos según tus necesidades
-		int numEdges = 200; // Cambia el número de aristas según tus necesidades
+		int numNodes = N; // Cambiar el número de nodos según sea necesario
+		int numEdges = 200000; // Cambiar el número de aristas según sea necesario
 		int[][] graph = generateRandomGraph(numNodes, numEdges);
 
 		System.out.println("Número de nodos: " + numNodes);
@@ -44,6 +45,7 @@ class MultistageGraph {
 		Random random = new Random();
 		int[][] graph = new int[numNodes][numNodes];
 
+		// Generar aristas aleatorias
 		for (int i = 0; i < numEdges; i++) {
 			int u = random.nextInt(numNodes);
 			int v;
@@ -61,6 +63,7 @@ class MultistageGraph {
 
 	public static int countEdges(int[][] graph) {
 		int count = 0;
+		// Contar el número de aristas en el grafo
 		for (int i = 0; i < graph.length; i++) {
 			for (int j = i + 1; j < graph[i].length; j++) {
 				if (graph[i][j] != INF) {

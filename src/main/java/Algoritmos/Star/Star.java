@@ -1,12 +1,12 @@
 package Algoritmos.Star;
-
 import java.util.*;
 
 public class Star {
     public static void main(String[] args) {
-        int numNodes = 10000;
-        int numEdges = 20000;
+        int numNodes = 15000000;
+        int numEdges = 30000000;
 
+        // Generar un grafo aleatorio
         Grafo grafo = generateGraph(numNodes, numEdges);
 
         int startNode = 0;
@@ -16,16 +16,20 @@ public class Star {
         System.out.println("Número de aristas: " + grafo.getTotalEdges());
 
         long startTime = System.nanoTime();
+
+        // Ejecutar el algoritmo A* desde el nodo de inicio hasta el nodo objetivo
         List<Integer> path = grafo.aStar(startNode, goalNode);
+
         long endTime = System.nanoTime();
 
         double tiempoEnMilisegundos = (endTime - startTime) / 1_000_000.0;
 
+        // Imprimir el tiempo de ejecución y el camino resultante (opcional)
         // System.out.println("Path: " + path);
         System.out.println("Execution Time: " + tiempoEnMilisegundos + " milliseconds");
     }
 
-
+    // Método para generar un grafo aleatorio
     private static Grafo generateGraph(int numNodes, int numEdges) {
         Grafo graph = new Grafo(numNodes);
         Random random = new Random();
@@ -39,7 +43,6 @@ public class Star {
 
         return graph;
     }
-
 }
 
 class Grafo {
@@ -54,11 +57,13 @@ class Grafo {
         }
     }
 
+    // Método para agregar una arista al grafo
     public void addEdge(int source, int destination, int weight) {
         Edge edge = new Edge(destination, weight);
         adj.get(source).add(edge);
     }
 
+    // Método A* para encontrar el camino más corto desde el inicio hasta el objetivo
     public List<Integer> aStar(int start, int goal) {
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(a -> a.fScore));
         openSet.add(new Node(start, 0, heuristic(start, goal)));
@@ -89,13 +94,16 @@ class Grafo {
         return Collections.emptyList();
     }
 
+    // Método para obtener el total de aristas en el grafo
     public int getTotalEdges() {
         int edges = 0;
         for (List<Edge> edgesList : adj) {
             edges += edgesList.size();
         }
         return edges;
-    }private int heuristic(int current, int goal) {
+    }
+
+    private int heuristic(int current, int goal) {
         return Math.abs(current - goal);
     }
 

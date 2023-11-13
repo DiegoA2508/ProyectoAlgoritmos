@@ -68,8 +68,8 @@ public class BellmanFord {
 
     public static void main(String[] args) {
         // Parámetros del problema
-        int numNodes = 2500; // Número de nodos
-        int numEdges = 5000; // Número de aristas
+        int numNodes = 50000; // Número de nodos
+        int numEdges = 100000; // Número de aristas
         int maxEdgeWeight = 10; // Peso máximo de los enlaces
 
         // Crear grafo con 100 nodos y 200 aristas
